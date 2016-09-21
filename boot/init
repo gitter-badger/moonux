@@ -1,0 +1,58 @@
+--[[
+	mnx-sr12 : Moonux Satellite Rewrite 12
+	Made by thecrimulo
+
+	NAME:        /boot/init
+	CATEGORY:    boot
+	SET:         Boot RW12
+	VERSION:     12:alpha0
+	DESCRIPTION: 
+		This script is ran after /startup and
+		it sets flags manually, also loading
+		some utils for posterior scripts.
+		Check /man/bso.sm
+]]--
+
+-- Put in _G
+function _put(a,b) _G[a]=b end
+_put('_put', _put)
+
+-- Put in _G.flag
+_put('flag', {})
+function _flag(a,b) _G.flag[a] = b end
+_put('_flag', _flag)
+
+-- Get _G.flag[flag]
+function _getflag(flag) return flag[flag] end
+_put('_getflag', _getflag)
+
+-- Loadfile, securely
+_put('_REQUIRECACHE', {})
+local function require(file)
+	local ok, ret = pcall(loadfile(file))
+	if ok then
+		_REQUIRECACHE[#_REQUIRECACHE+1] = file
+		return true
+	else
+		return false
+	end
+end
+_put('require', require)
+
+-- Set system flags
+--- Debug level, set to 0 by default, use /startup
+_flag('SYSDEBUG', 0)
+-- Rescue shell mode, set to false by default
+_flag('RESCUE', false)
+-- Starting the OS, can't be changed
+_flag('STATE_INIT', true)
+
+_arg = {...}
+if #_arg > 0 then
+	for _,arg in pairs(_arg) do
+		if arg == "sysdebug" then SYSDEBUG = SYSDEBUG + 1
+		elseif arg == "rescue" then RESCUE = true end
+	end
+end
+
+shell.run("/boot/load exclude gps")

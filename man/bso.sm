@@ -1,0 +1,30 @@
+System manual pages -------
+Moonux Satellite Rewrite 12
+===========================
+
+Boot Sequence Order
+---------------------------
+The boot sequence order are the scripts that are executed
+when the computer starts up. They execute different functions
+like loading utils, setting up the environment, setting flags
+or passing arguments. They go from '/startup' to '/boot/post'
+
+Files and its objectives
+---------------------------
+# /startup
+This is executed by default after executing shell or multishell,
+and is totally independent of the Operating System it is running.
+# /boot/init
+Here, the flags like SYSDEBUG and RESCUE are set manually, and
+it loads some utils that other scripts will need.
+You can pass 'sysdebug' and 'rescue', for debug mode and rescue
+shell, respectively
+# /boot/load
+Saves the old libraries and binaries into a copy in _G.
+It is necessary for the creation of the library rewrites.
+You can pass this file 'exclude <lib>' to not save a lib.
+# /vit/sysload
+/vit/, being the start of the high-level folders, loads one by
+one, and in the appropiate order, the libraries contained on
+/lib/*. These libraries must always be loaded in that exact
+order due to requirements and dependencies.

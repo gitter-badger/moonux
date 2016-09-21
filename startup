@@ -1,0 +1,16 @@
+--[[
+	mnx-sr12 : Moonux Satellite Rewrite 12
+	Made by thecrimulo
+
+	NAME:        /startup
+	CATEGORY:    boot
+	SET:         Boot RW12
+	VERSION:     12:alpha0
+	DESCRIPTION: 
+		This script is executed at boot, as the
+		default script configured in ComputerCraft.
+		This script is the start of the boot
+		sequence, check /man/bso.sm
+]]--
+
+shell.run("/boot/init sysdebug")
